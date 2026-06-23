@@ -1,0 +1,120 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<!-- Hero Section -->
+<div class="hero-section text-center text-md-start">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <h1 class="display-4 text-white fw-bold mb-3">Panduan Pertolongan Pertama Gawat Darurat</h1>
+        <p class="lead text-white-50 mb-4">Temukan langkah penanganan medis darurat tercepat dan terpercaya sebelum bantuan profesional tiba. Setiap detik berharga untuk menyelamatkan nyawa.</p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start">
+          <a href="/guides" class="btn btn-premium btn-premium-primary">
+            <i class="bi bi-journal-medical me-2"></i> Jelajahi Panduan
+          </a>
+          <a href="/contacts" class="btn btn-premium btn-outline-light px-4 py-2">
+            <i class="bi bi-telephone-outbound me-2"></i> Kontak Darurat
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block text-center">
+        <i class="bi bi-shield-plus text-white-50" style="font-size: 14rem; opacity: 0.15;"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search Bar Container -->
+<div class="container">
+  <div class="search-container">
+    <form action="/guides" method="GET" class="input-group">
+      <input type="text" name="q" class="form-control search-input" placeholder="Cari gejala atau nama kondisi darurat (contoh: luka bakar, tersedak)..." required>
+      <button class="btn search-btn px-4" type="submit">
+        <i class="bi bi-search me-1"></i> Cari
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Stats Counter Section -->
+<div class="container my-5">
+  <div class="row g-4 text-center">
+    <div class="col-md-4">
+      <div class="card-premium p-4">
+        <div class="display-5 fw-bold text-danger mb-1"><%= stats.guides %></div>
+        <div class="text-uppercase tracking-wider text-muted font-semibold small">Panduan Medis</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card-premium p-4">
+        <div class="display-5 fw-bold text-primary mb-1"><%= stats.categories %></div>
+        <div class="text-uppercase tracking-wider text-muted font-semibold small">Kategori Kondisi</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card-premium p-4">
+        <div class="display-5 fw-bold text-success mb-1"><%= stats.contacts %></div>
+        <div class="text-uppercase tracking-wider text-muted font-semibold small">Kontak Darurat</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Guides Section -->
+<div class="container my-5">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h2 class="h3 mb-1">Panduan Penanganan Terbaru</h2>
+      <p class="text-muted mb-0">Langkah-langkah cepat pertolongan pertama untuk kondisi darurat sekitar Anda.</p>
+    </div>
+    <a href="/guides" class="btn btn-sm btn-outline-danger rounded-pill px-3 d-none d-sm-inline-block">
+      Lihat Semua Panduan <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+
+  <div class="row g-4">
+    <% if (guides && guides.length > 0) { %>
+      <% guides.forEach(guide => { %>
+        <div class="col-lg-4 col-md-6">
+          <div class="card card-premium h-100 d-flex flex-column justify-content-between">
+            <div>
+              <% if (guide.gambar) { %>
+                <img src="/uploads/<%= guide.gambar %>" class="card-img-top" alt="<%= guide.judul %>" style="height: 200px; object-fit: cover;">
+              <% } else { %>
+                <div class="placeholder-guide-img">
+                  <i class="bi bi-heart-pulse text-danger fs-1 mb-2"></i>
+                  <span class="d-block w-100 text-center"><%= guide.kategori_nama %></span>
+                </div>
+              <% } %>
+              
+              <div class="card-body p-4">
+                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill mb-2"><%= guide.kategori_nama %></span>
+                <h5 class="card-title mb-2">
+                  <a href="/guides/<%= guide.id %>" class="text-decoration-none text-dark hover-danger"><%= guide.judul %></a>
+                </h5>
+                <p class="card-text text-muted text-truncate-3 small">
+                  <strong>Gejala:</strong> <%= guide.gejala.substring(0, 100) %>...
+                </p>
+              </div>
+            </div>
+            
+            <div class="card-footer bg-transparent border-0 px-4 pb-4 pt-0">
+              <hr class="mt-0 mb-3 text-black-50">
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i> <%= new Date(guide.created_at).toLocaleDateString('id-ID') %></span>
+                <a href="/guides/<%= guide.id %>" class="btn btn-sm btn-danger rounded-pill px-3">Detail <i class="bi bi-chevron-right ms-1"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-journal-x text-muted" style="font-size: 4rem;"></i>
+        <p class="lead mt-3 text-muted">Belum ada panduan yang terbit.</p>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
