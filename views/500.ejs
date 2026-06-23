@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container my-5 py-5 text-center">
+  <div class="row justify-content-center">
+    <div class="col-md-7">
+      <div class="display-1 fw-bold text-secondary mb-3">500</div>
+      <h2 class="fw-bold text-secondary mb-3">Terjadi Kesalahan Server</h2>
+      <p class="text-muted mb-4">Kami mendeteksi adanya masalah teknis pada server kami saat memproses permintaan Anda. Silakan coba beberapa saat lagi atau hubungi administrator.</p>
+      
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="card bg-light border-0 text-start p-3 mb-4 font-monospace small" style="max-height: 200px; overflow-y: auto;">
+          <strong class="text-danger">Detail Error:</strong><br>
+          <%= error.message || error %>
+        </div>
+      <% } %>
+
+      <div class="d-flex justify-content-center gap-3">
+        <a href="/" class="btn btn-premium btn-premium-primary">
+          <i class="bi bi-house-door me-2"></i>Kembali ke Beranda
+        </a>
+        <button onclick="window.location.reload();" class="btn btn-premium btn-outline-secondary px-4 py-2">
+          <i class="bi bi-arrow-clockwise me-2"></i>Muat Ulang Halaman
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
