@@ -1,0 +1,157 @@
+<%- include('../../partials/header') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 col-lg-2 px-0 sidebar d-flex flex-column justify-content-between">
+      <div>
+        <div class="p-3 text-center border-bottom border-secondary">
+          <h4 class="fw-bold mb-0 text-white"><i class="bi bi-heart-pulse-fill text-danger me-2"></i>FirstAid</h4>
+          <span class="text-muted small">Panel Admin</span>
+        </div>
+        <div class="py-3">
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li>
+              <a href="/admin/dashboard" class="nav-link">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="/admin/guides" class="nav-link active">
+                <i class="bi bi-journal-medical me-2"></i> Panduan
+              </a>
+            </li>
+            <li>
+              <a href="/admin/categories" class="nav-link">
+                <i class="bi bi-grid me-2"></i> Kategori
+              </a>
+            </li>
+            <li>
+              <a href="/admin/contacts" class="nav-link">
+                <i class="bi bi-telephone-plus me-2"></i> Kontak Darurat
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="p-3 border-top border-secondary">
+        <a href="/" class="btn btn-sm btn-outline-light w-100 rounded-pill mb-2"><i class="bi bi-globe me-1"></i> Lihat Web</a>
+        <a href="/auth/logout" class="btn btn-sm btn-danger w-100 rounded-pill"><i class="bi bi-box-arrow-right me-1"></i> Keluar</a>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="col-md-9 col-lg-10 bg-light py-4 px-md-4" style="min-height: 100vh;">
+      
+      <!-- Top Alert Message -->
+      <% if (message) { %>
+        <div class="alert alert-<%= message.type %> alert-dismissible fade show border-0 shadow-sm" role="alert">
+          <%= message.text %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <!-- Breadcrumbs / Back navigation -->
+      <div class="mb-4">
+        <a href="/admin/guides" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+          <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar Panduan
+        </a>
+      </div>
+
+      <!-- Header -->
+      <div class="mb-4">
+        <h1 class="h2 fw-bold mb-0">Ubah Panduan</h1>
+        <p class="text-muted">Perbarui data artikel panduan <strong><%= guide.judul %></strong>.</p>
+      </div>
+
+      <!-- Edit Form Card -->
+      <div class="card card-premium p-4 p-md-5 bg-white mb-5" style="max-width: 900px;">
+        <form action="/admin/guides/edit/<%= guide.id %>" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+          
+          <!-- Judul Panduan -->
+          <div class="mb-3">
+            <label for="judul" class="form-label fw-bold">Judul Panduan <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="judul" name="judul" value="<%= guide.judul %>" placeholder="Contoh: Pertolongan Pertama Sengatan Listrik" required>
+            <div class="invalid-feedback">Judul panduan wajib diisi.</div>
+          </div>
+
+          <!-- Kategori -->
+          <div class="mb-3">
+            <label for="kategori_id" class="form-label fw-bold">Kategori Panduan <span class="text-danger">*</span></label>
+            <select class="form-select" id="kategori_id" name="kategori_id" required>
+              <option value="" disabled>-- Pilih Kategori --</option>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat.id %>" <%= guide.kategori_id == cat.id ? 'selected' : '' %>><%= cat.nama %></option>
+              <% }) %>
+            </select>
+            <div class="invalid-feedback">Pilih kategori panduan terlebih dahulu.</div>
+          </div>
+
+          <!-- Gejala (Symptoms) -->
+          <div class="mb-3">
+            <label for="gejala" class="form-label fw-bold">Gejala / Tanda Klinis <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="gejala" name="gejala" rows="4" placeholder="Jelaskan kondisi fisik korban..." required><%= guide.gejala %></textarea>
+            <div class="invalid-feedback">Penjelasan gejala wajib diisi.</div>
+          </div>
+
+          <!-- Langkah Penanganan -->
+          <div class="mb-3">
+            <label for="langkah_penanganan" class="form-label fw-bold">Langkah-Langkah Penanganan <span class="text-danger">*</span></label>
+            <textarea class="form-control" id="langkah_penanganan" name="langkah_penanganan" rows="8" placeholder="Tuliskan langkah demi langkah..." required><%= guide.langkah_penanganan %></textarea>
+            <div class="invalid-feedback">Langkah-langkah penanganan wajib diisi.</div>
+          </div>
+
+          <!-- Gambar (File Upload & Pratinjau) -->
+          <div class="row mb-4 align-items-end">
+            <div class="col-md-3 mb-3 mb-md-0">
+              <label class="form-label fw-bold d-block">Gambar Saat Ini</label>
+              <% if (guide.gambar) { %>
+                <img src="/uploads/<%= guide.gambar %>" alt="<%= guide.judul %>" class="img-fluid rounded border p-1" style="max-height: 120px; object-fit: cover;">
+              <% } else { %>
+                <div class="bg-light border text-center rounded d-flex align-items-center justify-content-center text-muted small" style="height: 120px;">
+                  Tidak ada gambar
+                </div>
+              <% } %>
+            </div>
+            
+            <div class="col-md-9">
+              <label for="gambar" class="form-label fw-bold">Ganti Foto / Ilustrasi</label>
+              <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
+              <div class="form-text text-muted">Abaikan jika tidak ingin mengganti gambar. Ukuran maksimal 2MB (JPEG, PNG, WEBP).</div>
+            </div>
+          </div>
+
+          <!-- Submit buttons -->
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-premium btn-premium-primary">
+              <i class="bi bi-check-circle me-2"></i>Simpan Perubahan
+            </button>
+            <a href="/admin/guides" class="btn btn-premium btn-outline-secondary px-4 py-2">Batal</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Enable Bootstrap form validation
+  (function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>
+
+<%- include('../../partials/footer') %>

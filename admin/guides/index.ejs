@@ -1,0 +1,138 @@
+<%- include('../../partials/header') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 col-lg-2 px-0 sidebar d-flex flex-column justify-content-between">
+      <div>
+        <div class="p-3 text-center border-bottom border-secondary">
+          <h4 class="fw-bold mb-0 text-white"><i class="bi bi-heart-pulse-fill text-danger me-2"></i>FirstAid</h4>
+          <span class="text-muted small">Panel Admin</span>
+        </div>
+        <div class="py-3">
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li>
+              <a href="/admin/dashboard" class="nav-link">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="/admin/guides" class="nav-link active">
+                <i class="bi bi-journal-medical me-2"></i> Panduan
+              </a>
+            </li>
+            <li>
+              <a href="/admin/categories" class="nav-link">
+                <i class="bi bi-grid me-2"></i> Kategori
+              </a>
+            </li>
+            <li>
+              <a href="/admin/contacts" class="nav-link">
+                <i class="bi bi-telephone-plus me-2"></i> Kontak Darurat
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="p-3 border-top border-secondary">
+        <a href="/" class="btn btn-sm btn-outline-light w-100 rounded-pill mb-2"><i class="bi bi-globe me-1"></i> Lihat Web</a>
+        <a href="/auth/logout" class="btn btn-sm btn-danger w-100 rounded-pill"><i class="bi bi-box-arrow-right me-1"></i> Keluar</a>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="col-md-9 col-lg-10 bg-light py-4 px-md-4" style="min-height: 100vh;">
+      
+      <!-- Top Alert Message -->
+      <% if (typeof message !== "undefined" && message) { %>
+        <div class="alert alert-<%= message.type %> alert-dismissible fade show border-0 shadow-sm" role="alert">
+          <%= message.text %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h1 class="h2 fw-bold mb-0">Manajemen Panduan</h1>
+          <p class="text-muted mb-0">Kelola langkah pertolongan pertama pada kondisi gawat darurat.</p>
+        </div>
+        <a href="/admin/guides/create" class="btn btn-danger rounded-pill px-4">
+          <i class="bi bi-plus-circle me-2"></i>Tambah Panduan
+        </a>
+      </div>
+
+      <!-- Guides Table -->
+      <div class="card card-premium p-4 bg-white">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr class="text-muted small">
+                <th style="width: 80px;">ID</th>
+                <th style="width: 100px;">Gambar</th>
+                <th>Judul Panduan</th>
+                <th>Kategori</th>
+                <th>Pembuat</th>
+                <th>Tanggal Rilis</th>
+                <th class="text-end" style="width: 150px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (guides && guides.length > 0) { %>
+                <% guides.forEach(guide => { %>
+                  <tr>
+                    <td><span class="text-muted fw-bold">#<%= guide.id %></span></td>
+                    <td>
+                      <% if (guide.gambar) { %>
+                        <img src="/uploads/<%= guide.gambar %>" alt="<%= guide.judul %>" class="rounded" style="width: 60px; height: 45px; object-fit: cover;">
+                      <% } else { %>
+                        <div class="bg-light text-center rounded d-flex align-items-center justify-content-center text-danger" style="width: 60px; height: 45px;">
+                          <i class="bi bi-heart-pulse small"></i>
+                        </div>
+                      <% } %>
+                    </td>
+                    <td>
+                      <strong class="text-dark d-block text-truncate" style="max-width: 250px;" title="<%= guide.judul %>">
+                        <%= guide.judul %>
+                      </strong>
+                    </td>
+                    <td>
+                      <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2.5 py-1">
+                        <%= guide.kategori_nama %>
+                      </span>
+                    </td>
+                    <td><span class="small text-secondary"><%= guide.pembuat_nama || 'Admin' %></span></td>
+                    <td><span class="small text-muted"><%= new Date(guide.created_at).toLocaleDateString('id-ID') %></span></td>
+                    <td class="text-end">
+                      <div class="d-flex justify-content-end gap-2">
+                        <a href="/guides/<%= guide.id %>" target="_blank" class="btn btn-sm btn-outline-secondary rounded-circle" title="Pratinjau Halaman">
+                          <i class="bi bi-eye-fill"></i>
+                        </a>
+                        <a href="/admin/guides/edit/<%= guide.id %>" class="btn btn-sm btn-outline-primary rounded-circle" title="Edit">
+                          <i class="bi bi-pencil-fill"></i>
+                        </a>
+                        <form action="/admin/guides/delete/<%= guide.id %>" method="POST" class="delete-form d-inline">
+                          <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle" title="Hapus">
+                            <i class="bi bi-trash-fill"></i>
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td colspan="7" class="text-center py-5 text-muted">Belum ada artikel panduan terdaftar. Silakan tambah panduan baru.</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<%- include('../../partials/footer') %>

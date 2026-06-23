@@ -1,0 +1,129 @@
+<%- include('../../partials/header') %>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 col-lg-2 px-0 sidebar d-flex flex-column justify-content-between">
+      <div>
+        <div class="p-3 text-center border-bottom border-secondary">
+          <h4 class="fw-bold mb-0 text-white"><i class="bi bi-heart-pulse-fill text-danger me-2"></i>FirstAid</h4>
+          <span class="text-muted small">Panel Admin</span>
+        </div>
+        <div class="py-3">
+          <ul class="nav nav-pills flex-column mb-auto">
+            <li>
+              <a href="/admin/dashboard" class="nav-link">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="/admin/guides" class="nav-link">
+                <i class="bi bi-journal-medical me-2"></i> Panduan
+              </a>
+            </li>
+            <li>
+              <a href="/admin/categories" class="nav-link">
+                <i class="bi bi-grid me-2"></i> Kategori
+              </a>
+            </li>
+            <li>
+              <a href="/admin/contacts" class="nav-link active">
+                <i class="bi bi-telephone-plus me-2"></i> Kontak Darurat
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="p-3 border-top border-secondary">
+        <a href="/" class="btn btn-sm btn-outline-light w-100 rounded-pill mb-2"><i class="bi bi-globe me-1"></i> Lihat Web</a>
+        <a href="/auth/logout" class="btn btn-sm btn-danger w-100 rounded-pill"><i class="bi bi-box-arrow-right me-1"></i> Keluar</a>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="col-md-9 col-lg-10 bg-light py-4 px-md-4" style="min-height: 100vh;">
+      
+      <!-- Top Alert Message -->
+      <% if (message) { %>
+        <div class="alert alert-<%= message.type %> alert-dismissible fade show border-0 shadow-sm" role="alert">
+          <%= message.text %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <!-- Breadcrumbs / Back navigation -->
+      <div class="mb-4">
+        <a href="/admin/contacts" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+          <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar Kontak
+        </a>
+      </div>
+
+      <!-- Header -->
+      <div class="mb-4">
+        <h1 class="h2 fw-bold mb-0">Ubah Kontak Darurat</h1>
+        <p class="text-muted">Perbarui data instansi <strong><%= contact.nama_instansi %></strong>.</p>
+      </div>
+
+      <!-- Edit Form Card -->
+      <div class="card card-premium p-4 p-md-5 bg-white" style="max-width: 800px;">
+        <form action="/admin/contacts/edit/<%= contact.id %>" method="POST" class="needs-validation" novalidate>
+          <!-- Nama Instansi -->
+          <div class="mb-3">
+            <label for="nama_instansi" class="form-label fw-bold">Nama Instansi <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nama_instansi" name="nama_instansi" value="<%= contact.nama_instansi %>" placeholder="Contoh: Ambulans RSUD Ciawi, PMK Surabaya" required>
+            <div class="invalid-feedback">Nama instansi wajib diisi.</div>
+          </div>
+
+          <!-- Nomor Telepon -->
+          <div class="mb-3">
+            <label for="nomor_telepon" class="form-label fw-bold">Nomor Telepon <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nomor_telepon" name="nomor_telepon" value="<%= contact.nomor_telepon %>" placeholder="Contoh: 119, (021) 799-2325" required>
+            <div class="invalid-feedback">Nomor telepon wajib diisi.</div>
+          </div>
+
+          <!-- Alamat -->
+          <div class="mb-3">
+            <label for="alamat" class="form-label fw-bold">Alamat</label>
+            <textarea class="form-control" id="alamat" name="alamat" rows="3" placeholder="Masukkan alamat lengkap instansi (opsional)..."><%= contact.alamat %></textarea>
+          </div>
+
+          <!-- Keterangan -->
+          <div class="mb-4">
+            <label for="keterangan" class="form-label fw-bold">Keterangan / Catatan</label>
+            <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Contoh: Buka 24 jam, khusus pertolongan bencana alam..."><%= contact.keterangan %></textarea>
+          </div>
+
+          <!-- Submit buttons -->
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-premium btn-premium-primary">
+              <i class="bi bi-check-circle me-2"></i>Simpan Perubahan
+            </button>
+            <a href="/admin/contacts" class="btn btn-premium btn-outline-secondary px-4 py-2">Batal</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Enable Bootstrap form validation
+  (function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+</script>
+
+<%- include('../../partials/footer') %>
