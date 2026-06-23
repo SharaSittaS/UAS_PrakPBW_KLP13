@@ -1,0 +1,106 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card card-premium p-4 p-md-5">
+        <div class="text-center mb-4">
+          <div class="bg-danger bg-opacity-10 text-danger rounded-circle p-3 d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <i class="bi bi-person-plus-fill fs-3"></i>
+          </div>
+          <h2 class="fw-bold mb-1">Daftar Akun</h2>
+          <p class="text-muted small">Registrasi akun admin baru FirstAid Guide</p>
+        </div>
+
+        <form action="/auth/register" method="POST" class="needs-validation" novalidate id="registerForm">
+          <!-- Nama Lengkap -->
+          <div class="mb-3">
+            <label for="nama" class="form-label fw-semibold">Nama Lengkap</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-card-text text-muted"></i></span>
+              <input type="text" class="form-control bg-light border-start-0 ps-0" id="nama" name="nama" placeholder="Masukkan nama lengkap Anda" required>
+              <div class="invalid-feedback">Nama lengkap wajib diisi.</div>
+            </div>
+          </div>
+
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="username" class="form-label fw-semibold">Username</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+              <input type="text" class="form-control bg-light border-start-0 ps-0" id="username" name="username" placeholder="Buat username unik" required minlength="4" pattern="^[a-zA-Z0-9_]+$">
+              <div class="invalid-feedback">Username minimal 4 karakter (hanya huruf, angka, underscore).</div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="mb-3">
+            <label for="password" class="form-label fw-semibold">Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-key text-muted"></i></span>
+              <input type="password" class="form-control bg-light border-start-0 ps-0" id="password" name="password" placeholder="Minimal 6 karakter" required minlength="6">
+              <div class="invalid-feedback">Password minimal harus 6 karakter.</div>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="mb-4">
+            <label for="confirm_password" class="form-label fw-semibold">Konfirmasi Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-shield-check text-muted"></i></span>
+              <input type="password" class="form-control bg-light border-start-0 ps-0" id="confirm_password" name="confirm_password" placeholder="Ulangi password" required>
+              <div class="invalid-feedback" id="confirmFeedback">Konfirmasi password wajib diisi.</div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-premium btn-premium-primary w-100 mb-3">
+            <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+          </button>
+          
+          <div class="text-center small">
+            <span class="text-muted">Sudah memiliki akun? </span>
+            <a href="/auth/login" class="text-danger fw-bold text-decoration-none">Masuk</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Bootstrap client-side validation logic
+  (function () {
+    'use strict'
+    const form = document.getElementById('registerForm');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirm_password');
+    const confirmFeedback = document.getElementById('confirmFeedback');
+
+    form.addEventListener('submit', function (event) {
+      // Validasi kecocokan password
+      if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity('Password tidak cocok');
+        confirmFeedback.textContent = 'Konfirmasi password tidak cocok dengan password di atas.';
+      } else {
+        confirmPassword.setCustomValidity('');
+      }
+
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+
+    // Reset custom validity ketika user mengetik ulang
+    confirmPassword.addEventListener('input', function() {
+      if (password.value === confirmPassword.value) {
+        confirmPassword.setCustomValidity('');
+      }
+    });
+  })();
+</script>
+
+<%- include('../partials/footer') %>
