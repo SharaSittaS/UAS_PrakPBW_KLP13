@@ -1,0 +1,277 @@
+/* Import Google Fonts - Outfit */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary-color: #e63946;      /* Crimson Red (Urgent/Medical) */
+  --secondary-color: #1d3557;    /* Slate Blue (Calming/Stability) */
+  --accent-color: #457b9d;       /* Soft Blue */
+  --light-bg: #f8f9fa;           /* Off-white */
+  --light-card-bg: rgba(255, 255, 255, 0.95);
+  --dark-slate: #1e293b;         /* Modern dark slate */
+  --font-family: 'Outfit', sans-serif;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --box-shadow-premium: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+  --box-shadow-hover: 0 20px 40px -10px rgba(230, 57, 70, 0.15);
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--light-bg);
+  color: #334155;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Typography settings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navbar Custom Styling */
+.navbar-custom {
+  background-color: var(--secondary-color) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 1rem;
+}
+.navbar-custom .navbar-brand {
+  font-weight: 800;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+.navbar-custom .nav-link {
+  font-weight: 500;
+  transition: var(--transition-smooth);
+}
+.navbar-custom .nav-link:hover {
+  color: #f1faee !important;
+  transform: translateY(-1px);
+}
+.navbar-custom .nav-link.active {
+  color: #f1faee !important;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%);
+  color: white;
+  padding: 5rem 0;
+  position: relative;
+  overflow: hidden;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  background-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Cards Premium */
+.card-premium {
+  background: var(--light-card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  border-radius: 16px;
+  box-shadow: var(--box-shadow-premium);
+  transition: var(--transition-smooth);
+  overflow: hidden;
+}
+.card-premium:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--box-shadow-hover);
+  border-color: rgba(230, 57, 70, 0.1);
+}
+
+/* Buttons Styling */
+.btn-premium {
+  border-radius: 30px;
+  padding: 0.6rem 1.8rem;
+  font-weight: 600;
+  transition: var(--transition-smooth);
+}
+.btn-premium-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
+}
+.btn-premium-primary:hover {
+  background-color: #d62837;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+}
+.btn-premium-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(29, 53, 87, 0.3);
+}
+.btn-premium-secondary:hover {
+  background-color: #15253e;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(29, 53, 87, 0.4);
+}
+
+/* Search bar styling */
+.search-container {
+  max-width: 700px;
+  margin: -2.5rem auto 0 auto;
+  position: relative;
+  z-index: 10;
+}
+.search-input {
+  border-radius: 50px !important;
+  padding: 1rem 1.8rem !important;
+  font-size: 1.1rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1) !important;
+  border: 2px solid white !important;
+  transition: var(--transition-smooth);
+}
+.search-input:focus {
+  border-color: var(--primary-color) !important;
+}
+.search-btn {
+  border-radius: 50px !important;
+  padding-left: 2rem !important;
+  padding-right: 2rem !important;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Categories Badges */
+.badge-category {
+  background-color: rgba(29, 53, 87, 0.08);
+  color: var(--secondary-color);
+  font-weight: 600;
+  padding: 0.45em 0.85em;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+.badge-category:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Detail Page Custom styles */
+.guide-image-container {
+  border-radius: 20px;
+  overflow: hidden;
+  max-height: 400px;
+  box-shadow: var(--box-shadow-premium);
+}
+.guide-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.step-card {
+  border-left: 4px solid var(--primary-color);
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border-radius: 0 12px 12px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  margin-bottom: 1rem;
+}
+
+.step-number {
+  font-weight: 800;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+/* Contacts Call Card */
+.contact-card {
+  border-left: 5px solid var(--accent-color);
+  transition: var(--transition-smooth);
+}
+.contact-card:hover {
+  border-left-color: var(--primary-color);
+}
+.phone-pill {
+  background: rgba(230, 57, 70, 0.1);
+  color: var(--primary-color);
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: var(--transition-smooth);
+}
+.phone-pill:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Sidebar Dashboard Admin */
+.sidebar {
+  background-color: var(--dark-slate);
+  color: white;
+  min-height: 100vh;
+}
+.sidebar .nav-link {
+  color: #94a3b8;
+  font-weight: 500;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  margin: 0.2rem 0.5rem;
+  transition: var(--transition-smooth);
+}
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+  color: white;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.sidebar .nav-link.active {
+  background-color: var(--primary-color);
+}
+
+/* Admin Table Custom styles */
+.table-premium {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--box-shadow-premium);
+}
+.table-premium th {
+  background-color: #f1f5f9;
+  font-weight: 600;
+}
+
+/* Footer style */
+footer {
+  background-color: var(--dark-slate);
+  color: #94a3b8;
+  padding: 2.5rem 0;
+  margin-top: auto;
+}
+
+/* Card image replacement */
+.placeholder-guide-img {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-weight: 500;
+}
